@@ -91,9 +91,15 @@
     <button onclick="switchTab('pengawas'); toggleMobileMenu()" id="mob-tab-pengawas" class="w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition hidden">Form Pengawas</button>
     <button onclick="switchTab('dashboard'); toggleMobileMenu()" id="mob-tab-dashboard" class="block w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition">Dashboard</button>
     <button onclick="switchTab('map'); toggleMobileMenu()" id="mob-tab-map" class="block w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition">Map</button>
+    
     <div class="border-t border-theme2 border-b">
         <button onclick="syncMasterDataManual()" class="block w-full text-left px-4 py-3 font-semibold text-theme4 hover:bg-theme2 transition"><i class="ph ph-arrows-clockwise mr-2"></i>Sync Master Surveyor</button>
+        
+        <button id="installAppBtn" onclick="installPWA()" class="hidden w-full text-left px-4 py-3 font-semibold text-theme5 bg-theme2 hover:bg-theme3 hover:text-theme1 transition border-t border-theme2">
+          <i class="ph ph-download-simple mr-2"></i>Install Aplikasi Offline
+        </button>
     </div>
+    
     <button onclick="logout()" class="block w-full text-left px-4 py-3 font-semibold text-red-300 hover:bg-theme2 transition">Logout Akses</button>
   </div>
 
@@ -777,6 +783,44 @@
         if (!document.getElementById('section-map').classList.contains('hidden')) { try { mapInstance.fitBounds(mapMarkersLayer.getBounds(), { padding: [50, 50] }); } catch(e){} }
       }
     }
+    // ==========================================
+    // LOGIKA INSTALASI PWA (ADD TO HOME SCREEN)
+    // ==========================================
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', function(e) {
+      // Mencegah browser memunculkan mini-infobar default secara otomatis
+      e.preventDefault();
+      // Simpan event agar bisa dipicu nanti saat tombol ditekan
+      deferredPrompt = e;
+      // Munculkan tombol "Install Aplikasi Offline" di menu
+      const installBtn = document.getElementById('installAppBtn');
+      if (installBtn) {
+         installBtn.classList.remove('hidden');
+         installBtn.classList.add('block');
+      }
+    });
+
+    function installPWA() {
+      if (!deferredPrompt) return;
+      // Tampilkan prompt instalasi bawaan sistem (Android/Desktop)
+      deferredPrompt.prompt();
+      // Tunggu respons user (Apakah mereka menekan "Install" atau "Batal")
+      deferredPrompt.userChoice.then(function(choiceResult) {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User menerima instalasi PWA');
+          // Sembunyikan tombol setelah diinstal
+          document.getElementById('installAppBtn').classList.add('hidden');
+        }
+        deferredPrompt = null;
+      });
+    }
+
+    // Mendeteksi jika aplikasi sudah sukses terinstal (opsional)
+    window.addEventListener('appinstalled', function() {
+      console.log('PWA berhasil diinstal');
+      document.getElementById('installAppBtn').classList.add('hidden');
+    });
   </script>
 </body>
 </html>
