@@ -1,0 +1,22 @@
+{
+  "name": "Gradebox Validation Form v2",
+  "short_name": "Gradebox",
+  "description": "Form Gradebox Validation",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22577a",
+  "icons": [
+    {
+      "src": "https://placehold.co/192x192/22577a/ffffff?text=GB",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://placehold.co/512x512/22577a/ffffff?text=GBX",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
