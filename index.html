@@ -304,11 +304,36 @@
     const OFFLINE_KEY = "gradebox_offline_data";
     const MASTER_SURVEYOR_KEY = "gradebox_master_surveyor";
 
-    // Pendaftaran Service Worker untuk PWA
+    // ==========================================
+    // PENDAFTARAN PWA & DETEKSI UPDATE
+    // ==========================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('./sw.js').then(function(reg) {
           console.log('SW Registered', reg.scope);
+          
+          // Mendeteksi jika ada versi sw.js baru dari Netlify
+          reg.addEventListener('updatefound', function() {
+            const newWorker = reg.installing;
+            newWorker.addEventListener('statechange', function() {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Notifikasi pembaruan aplikasi
+                Swal.fire({
+                  title: 'Update Aplikasi Tersedia!',
+                  text: 'Sistem menemukan pembaruan kode terbaru. Muat ulang aplikasi sekarang?',
+                  icon: 'info',
+                  showCancelButton: true,
+                  confirmButtonText: '<i class="ph ph-arrows-clockwise"></i> Muat Ulang',
+                  cancelButtonText: 'Nanti'
+                }).then(function(result) {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+          });
+
         }).catch(function(err) { console.log('SW Failed', err); });
       });
     }
@@ -340,6 +365,15 @@
       window.addEventListener('online', checkNetworkStatus);
       window.addEventListener('offline', checkNetworkStatus);
       checkNetworkStatus();
+
+      // FITUR BARU: AUTO-LOGIN
+      const savedAuth = localStorage.getItem('gradebox_auth');
+      if (savedAuth) {
+         currentUser = JSON.parse(savedAuth);
+         document.getElementById('login-section').classList.add('hidden'); 
+         document.body.classList.remove('no-scroll');
+         setupUserEnvironment();
+      }
     });
 
     function setDefaultDatetime() {
@@ -351,13 +385,35 @@
 
     function handleLogin(e) {
       e.preventDefault();
-      const u = document.getElementById('login_user').value, p = document.getElementById('login_pass').value;
+      const u = document.getElementById('login_user').value;
+      const p = document.getElementById('login_pass').value;
       const userFound = USER_DB.find(function(x) { return x.user === u && x.pass === p; });
+      
       if (userFound) {
         currentUser = userFound;
-        document.getElementById('login-section').classList.add('hidden'); document.body.classList.remove('no-scroll');
+        
+        // FITUR BARU: Simpan data kredensial ke memori lokal browser
+        localStorage.setItem('gradebox_auth', JSON.stringify(currentUser));
+        
+        document.getElementById('login-section').classList.add('hidden'); 
+        document.body.classList.remove('no-scroll');
         setupUserEnvironment();
-      } else { Swal.fire('Error', 'Username atau Password salah!', 'error'); }
+      } else { 
+        Swal.fire('Error', 'Username atau Password salah!', 'error'); 
+      }
+    }
+
+    function logout() {
+      currentUser = null; 
+      
+      // FITUR BARU: Hapus memori auto-login saat logout
+      localStorage.removeItem('gradebox_auth'); 
+      
+      document.getElementById('login_user').value = ''; 
+      document.getElementById('login_pass').value = '';
+      document.getElementById('login-section').classList.remove('hidden'); 
+      document.body.classList.add('no-scroll'); 
+      toggleMobileMenu();
     }
 
     function setupUserEnvironment() {
