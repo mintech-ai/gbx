@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#22577a">
-  <title>Gradebox Setup v2</title>
+  <title>Gradebox Monitoring v2</title>
   
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://placehold.co/192x192/22577a/ffffff?text=GB">
@@ -33,6 +33,7 @@
 </head>
 <body class="bg-white text-theme1 font-sans antialiased relative no-scroll">
 
+  <!-- LOGIN SECTION -->
   <div id="login-section" class="fixed inset-0 bg-theme1 z-[999] flex items-center justify-center p-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 border border-theme5">
       <div class="text-center mb-6">
@@ -54,6 +55,7 @@
     </div>
   </div>
 
+  <!-- HEADER -->
   <header class="bg-theme1 text-white shadow-lg sticky top-0 z-40 h-[64px] flex flex-col justify-center">
     <div class="w-full max-w-6xl mx-auto px-4 flex justify-between items-center">
       <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
@@ -67,6 +69,8 @@
         <button onclick="switchTab('pengawas')" id="desk-tab-pengawas" class="hover:text-theme3 font-semibold h-[64px] border-b-2 border-transparent transition hidden">Form Pengawas</button>
         <button onclick="switchTab('dashboard')" id="desk-tab-dashboard" class="hover:text-theme3 font-semibold h-[64px] border-b-2 border-transparent transition">Dashboard</button>
         <button onclick="switchTab('map')" id="desk-tab-map" class="hover:text-theme3 font-semibold h-[64px] border-b-2 border-transparent transition">Map</button>
+        <button onclick="switchTab('plan')" id="desk-tab-plan" class="hover:text-theme3 font-semibold h-[64px] border-b-2 border-transparent transition hidden">Data Plan</button>
+        <button onclick="switchTab('management')" id="desk-tab-management" class="hover:text-theme3 font-semibold h-[64px] border-b-2 border-transparent transition hidden">Manajemen</button>
       </nav>
       <div class="flex items-center space-x-3">
         <div id="userInfoDisplay" class="hidden text-xs text-theme4 font-mono mr-2 bg-black bg-opacity-30 px-2 py-1 rounded border border-theme2"></div>
@@ -76,21 +80,21 @@
     </div>
   </header>
 
-  <div id="offlineBanner" class="hidden bg-red-500 text-white text-xs font-bold px-4 py-2 flex justify-between items-center z-30 relative shadow-md">
-    <span><i class="ph ph-wifi-slash mr-1"></i> Mode Offline Aktif. Gunakan data master yang tersimpan.</span>
-  </div>
-  
+  <div id="offlineBanner" class="hidden bg-red-500 text-white text-xs font-bold px-4 py-2 flex justify-between items-center z-30 relative shadow-md"><span><i class="ph ph-wifi-slash mr-1"></i> Mode Offline Aktif. Gunakan data master yang tersimpan.</span></div>
   <div id="syncBanner" class="hidden bg-orange-100 text-orange-800 border-b border-orange-200 text-sm font-semibold px-4 py-3 flex justify-between items-center z-30 relative shadow-md">
-    <span><i class="ph ph-cloud-arrow-up mr-2 text-lg"></i> <span id="syncCount">0</span> Data Tersimpan Offline</span>
-    <button onclick="syncOfflineData()" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded shadow text-xs transition">Sinkronisasi Sekarang</button>
+    <span><i class="ph ph-cloud-arrow-up mr-2 text-lg"></i> <span id="syncCount">0</span> Data Tersimpan Offline</span><button onclick="syncOfflineData()" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded shadow text-xs transition">Sinkronisasi</button>
   </div>
 
+  <!-- MOBILE MENU -->
   <div id="mobile-menu" class="hidden absolute top-[64px] left-0 w-full bg-theme1 border-t border-theme2 z-50 shadow-xl">
     <button onclick="switchTab('home'); toggleMobileMenu()" id="mob-tab-home" class="block w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition">Home</button>
     <button onclick="switchTab('survey'); toggleMobileMenu()" id="mob-tab-survey" class="w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition hidden">Form Survey</button>
     <button onclick="switchTab('pengawas'); toggleMobileMenu()" id="mob-tab-pengawas" class="w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition hidden">Form Pengawas</button>
     <button onclick="switchTab('dashboard'); toggleMobileMenu()" id="mob-tab-dashboard" class="block w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition">Dashboard</button>
     <button onclick="switchTab('map'); toggleMobileMenu()" id="mob-tab-map" class="block w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition">Map</button>
+    <button onclick="switchTab('plan'); toggleMobileMenu()" id="mob-tab-plan" class="w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition hidden">Data Plan</button>
+    <button onclick="switchTab('management'); toggleMobileMenu()" id="mob-tab-management" class="w-full text-left px-4 py-3 font-semibold text-white hover:bg-theme2 transition hidden">Manajemen</button>
+    
     <div class="border-t border-theme2 border-b">
         <button onclick="syncMasterDataManual()" class="block w-full text-left px-4 py-3 font-semibold text-theme4 hover:bg-theme2 transition"><i class="ph ph-arrows-clockwise mr-2"></i>Sync Master Surveyor</button>
         <button id="installAppBtn" onclick="installPWA()" class="hidden w-full text-left px-4 py-3 font-semibold text-theme5 bg-theme2 hover:bg-theme3 hover:text-theme1 transition border-t border-theme2"><i class="ph ph-download-simple mr-2"></i>Install Aplikasi Offline</button>
@@ -100,6 +104,7 @@
 
   <main id="mainContainer" class="max-w-6xl mx-auto px-4 mt-6 pb-10">
     
+    <!-- HOME -->
     <section id="section-home" class="tab-section hidden">
       <div class="text-center py-12 md:py-20">
         <div class="inline-block p-4 bg-theme4 bg-opacity-30 rounded-full mb-4"><i class="ph-fill ph-bounding-box text-6xl text-theme2"></i></div>
@@ -108,12 +113,9 @@
       </div>
     </section>
 
+    <!-- FORM SURVEY -->
     <section id="section-survey" class="tab-section hidden max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden block">
-      <div class="bg-theme5 px-6 py-4 border-b border-theme4 flex justify-between items-center">
-        <h2 class="text-lg font-bold text-theme1">Input Data Surveyor</h2>
-        <span id="masterDataBadge" class="text-xs font-semibold px-2 py-1 bg-white text-theme2 rounded shadow-sm"><i class="ph ph-database"></i> Offline Ready</span>
-      </div>
-
+      <div class="bg-theme5 px-6 py-4 border-b border-theme4 flex justify-between items-center"><h2 class="text-lg font-bold text-theme1">Input Data Surveyor</h2><span id="masterDataBadge" class="text-xs font-semibold px-2 py-1 bg-white text-theme2 rounded shadow-sm"><i class="ph ph-database"></i> Offline Ready</span></div>
       <form id="gradeboxForm" class="p-6 space-y-8" onsubmit="handleFormSubmit(event)">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div><label class="block text-sm font-semibold mb-1">Waktu Survey <span class="text-red-500">*</span></label><input type="datetime-local" name="waktu_survey" id="waktu_survey" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2 font-mono text-sm"></div>
@@ -121,34 +123,28 @@
           <div><label class="block text-sm font-semibold mb-1">Nama Surveyor <span class="text-red-500">*</span></label><select name="nama_surveyor" id="nama_surveyor" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2 focus:ring-1 focus:ring-theme2"><option value="">Loading Master Data...</option></select></div>
           
           <div><label class="block text-sm font-semibold mb-1">Area Kerja <span class="text-red-500">*</span></label><div class="flex items-center space-x-4 mt-2"><label class="inline-flex items-center cursor-pointer"><input type="radio" name="area_kerja" value="Pit (Loading)" required class="text-theme2 w-4 h-4" onchange="toggleMaterial()"><span class="ml-2 text-sm">Pit (Loading)</span></label><label class="inline-flex items-center cursor-pointer"><input type="radio" name="area_kerja" value="Disposal (Dumping)" class="text-theme2 w-4 h-4" onchange="toggleMaterial()"><span class="ml-2 text-sm">Disposal (Dumping)</span></label></div></div>
-          <div>
-            <label class="block text-sm font-semibold mb-1">Material <span class="text-red-500">*</span></label>
-            <div class="flex items-center space-x-4 mt-2">
-              <label class="inline-flex items-center cursor-pointer" id="wrap_mat_ob"><input type="radio" name="material" id="mat_ob" value="OB" required class="text-theme2 w-4 h-4"><span class="ml-2 text-sm">OB</span></label>
-              <label class="inline-flex items-center cursor-pointer" id="wrap_mat_coal"><input type="radio" name="material" id="mat_coal" value="Coal" class="text-theme2 w-4 h-4"><span class="ml-2 text-sm">Coal</span></label>
-            </div>
-          </div>
+          <div><label class="block text-sm font-semibold mb-1">Material <span class="text-red-500">*</span></label><div class="flex items-center space-x-4 mt-2"><label class="inline-flex items-center cursor-pointer" id="wrap_mat_ob"><input type="radio" name="material" id="mat_ob" value="OB" required class="text-theme2 w-4 h-4"><span class="ml-2 text-sm">OB</span></label><label class="inline-flex items-center cursor-pointer" id="wrap_mat_coal"><input type="radio" name="material" id="mat_coal" value="Coal" class="text-theme2 w-4 h-4"><span class="ml-2 text-sm">Coal</span></label></div></div>
         </div>
 
         <div class="pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Nama Front <span class="text-red-500">*</span></label><input type="text" name="nama_front" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2" placeholder="Contoh: Front A"></div>
           <div><label class="block text-sm font-semibold mb-1">Northing <span class="text-red-500">*</span></label><input type="number" step="0.001" name="northing" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
           <div><label class="block text-sm font-semibold mb-1">Easting <span class="text-red-500">*</span></label><input type="number" step="0.001" name="easting" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Actual Elevation (m)<span class="text-red-500">*</span></label><input type="number" step="1" name="actual_level" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Tinggi Benang (m)<span class="text-red-500">*</span></label><input type="number" step="any" name="tinggi_benang" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Target RL (m)<span class="text-red-500">*</span></label><input type="number" step="1" name="target_rl" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
-          <div><label class="block text-sm font-semibold mb-1">RL Design (m)<span class="text-red-500">*</span></label><input type="number" step="1" name="rl_design" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
-          <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Grade (%) <span class="text-red-500">*</span></label><input type="number" step="any" name="grade" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Actual Level <span class="text-red-500">*</span></label><input type="number" step="any" name="actual_level" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Tinggi Benang <span class="text-red-500">*</span></label><input type="number" step="any" name="tinggi_benang" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Target RL <span class="text-red-500">*</span></label><input type="number" step="any" name="target_rl" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">RL Design <span class="text-red-500">*</span></label><input type="number" step="any" name="rl_design" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Grade (%) <span class="text-red-500">*</span></label><input type="number" step="any" name="grade" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
           
           <div class="md:col-span-2 bg-theme5 bg-opacity-20 p-4 rounded border border-theme4 flex items-center justify-between">
             <div><label class="block text-sm font-semibold mb-1 text-theme1">Get Coordinate (Optional)</label><input type="text" name="coordinates" id="coordinates" readonly class="font-mono text-sm bg-transparent w-full focus:outline-none text-theme2" placeholder="Belum didapatkan"></div>
-            <button type="button" onclick="getLocation()" class="bg-theme3 hover:bg-theme2 text-white font-semibold text-sm px-4 py-2 rounded transition shadow"><i class="ph ph-crosshair font-bold mr-1"></i> Get GPS</button>
+            <button type="button" onclick="getLocation()" class="bg-theme3 hover:bg-theme2 text-white font-semibold text-sm px-4 py-2 rounded transition shadow"><i class="ph ph-crosshair font-bold mr-1"></i>Get GPS</button>
           </div>
 
           <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Catatan</label><textarea name="keterangan" rows="2" class="w-full border border-gray-300 rounded px-3 py-2"></textarea></div>
           
           <div class="md:col-span-2">
-            <label class="block text-sm font-semibold mb-1">Foto Lapangan</label>
+            <label class="block text-sm font-semibold mb-1">Foto Gradebox</label>
             <div class="flex space-x-3">
               <button type="button" onclick="triggerCamera()" class="flex-1 bg-theme2 hover:bg-theme1 text-white font-semibold text-sm py-2 px-4 rounded transition shadow flex items-center justify-center"><i class="ph ph-camera text-lg mr-2"></i> Buka Kamera</button>
               <button type="button" onclick="triggerGallery()" class="flex-1 bg-white border border-theme3 hover:bg-gray-50 text-theme1 font-semibold text-sm py-2 px-4 rounded transition shadow flex items-center justify-center"><i class="ph ph-image text-lg mr-2"></i> Pilih Galeri</button>
@@ -168,6 +164,7 @@
       </form>
     </section>
 
+    <!-- FORM PENGAWAS -->
     <section id="section-pengawas" class="tab-section hidden">
       <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end">
         <div><h2 class="text-xl font-bold text-theme1 border-l-4 border-theme2 pl-3">Tabel Verifikasi Pengawas</h2><p class="text-sm text-gray-500 pl-4 mt-1">Kelola hasil input survey hari ini.</p></div>
@@ -184,7 +181,7 @@
       <div class="bg-white rounded-lg shadow-md border border-gray-200 w-full overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
-            <thead><tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b"><th class="p-4 font-semibold">Jam</th><th class="p-4 font-semibold">ID</th><th class="p-4 font-semibold">Surveyor & Mitra</th><th class="p-4 font-semibold">Area Kerja</th><th class="p-4 font-semibold">Status Pengawas</th><th class="p-4 font-semibold text-center">Action</th></tr></thead>
+            <thead><tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b"><th class="p-4 font-semibold">Waktu</th><th class="p-4 font-semibold">ID</th><th class="p-4 font-semibold">Surveyor & Mitra</th><th class="p-4 font-semibold">Area Kerja</th><th class="p-4 font-semibold">Status Pengawas</th><th class="p-4 font-semibold text-center">Action</th></tr></thead>
             <tbody id="pengawasTableBody" class="text-sm divide-y divide-gray-100"></tbody>
           </table>
           <div id="pengawasEmpty" class="hidden p-8 text-center text-gray-400">Tidak ada data ditemukan untuk filter ini.</div>
@@ -192,10 +189,9 @@
       </div>
     </section>
 
+    <!-- DASHBOARD -->
     <section id="section-dashboard" class="tab-section hidden">
-      <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end">
-        <div><h2 class="text-xl font-bold text-theme1 border-l-4 border-theme3 pl-3">Dashboard Gradebox</h2></div>
-      </div>
+      <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end"><div><h2 class="text-xl font-bold text-theme1 border-l-4 border-theme3 pl-3">Dashboard Gradebox</h2></div></div>
       
       <div id="filter-container-dashboard" class="mb-4 flex flex-wrap gap-2 border-b border-gray-200 pb-4">
         <button onclick="setMitraFilter('Semua', 'dashboard')" id="flt-dashboard-Semua" class="px-5 py-2 rounded font-bold text-sm bg-theme2 text-white transition shadow-sm">Semua</button>
@@ -206,9 +202,9 @@
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme1"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Total Data</h3><p class="text-3xl font-bold font-mono" id="cardTotal">-</p></div>
-        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme2"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Pit & OB</h3><p class="text-3xl font-bold font-mono" id="cardPitOB">-</p></div>
-        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme3"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Pit & Coal</h3><p class="text-3xl font-bold font-mono" id="cardPitCoal">-</p></div>
-        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme4"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Disposal</h3><p class="text-3xl font-bold font-mono" id="cardDisposal">-</p></div>
+        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme2"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Loading OB</h3><p class="text-2xl lg:text-3xl font-bold font-mono text-theme1" id="cardPitOB">-</p><p class="text-[10px] text-gray-400 mt-1">Actual / Plan</p></div>
+        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme3"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Loading Coal</h3><p class="text-2xl lg:text-3xl font-bold font-mono text-theme1" id="cardPitCoal">-</p><p class="text-[10px] text-gray-400 mt-1">Actual / Plan</p></div>
+        <div class="bg-white rounded-lg shadow-md border border-gray-100 p-4 border-t-4 border-t-theme4"><h3 class="text-xs text-gray-500 font-bold uppercase mb-1">Disposal</h3><p class="text-2xl lg:text-3xl font-bold font-mono text-theme1" id="cardDisposal">-</p><p class="text-[10px] text-gray-400 mt-1">Actual / Plan</p></div>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -221,7 +217,10 @@
       <div class="bg-white rounded-lg shadow-md border border-gray-100 w-full overflow-hidden mt-6">
         <div class="bg-theme5 bg-opacity-20 px-4 py-3 border-b border-theme5 flex justify-between items-center">
           <div><h3 class="text-sm font-bold text-theme1">Data Detail</h3><p id="tableFilterStatus" class="text-xs text-theme2 font-semibold mt-1">Menampilkan: Semua Data</p></div>
-          <button onclick="resetDashboardFilter()" class="text-xs font-semibold px-3 py-1 bg-white border border-red-300 text-red-500 hover:bg-red-50 rounded transition hidden" id="btnResetFilter"><i class="ph ph-x"></i> Hapus Filter</button>
+          <div class="flex space-x-2">
+            <button onclick="downloadDashboardCSV()" class="text-xs font-semibold px-3 py-1 bg-white border border-theme3 text-theme2 hover:bg-theme5 rounded transition flex items-center"><i class="ph ph-download-simple mr-1"></i> CSV</button>
+            <button onclick="resetDashboardFilter()" class="text-xs font-semibold px-3 py-1 bg-white border border-red-300 text-red-500 hover:bg-red-50 rounded transition hidden" id="btnResetFilter"><i class="ph ph-x"></i> Hapus Filter</button>
+          </div>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -232,11 +231,63 @@
         </div>
       </div>
     </section>
+
+    <!-- DATA PLAN -->
+    <section id="section-plan" class="tab-section hidden">
+      <div class="mb-6 flex justify-between items-end">
+        <div><h2 class="text-xl font-bold text-theme1 border-l-4 border-theme4 pl-3">Manajemen Data Plan</h2><p class="text-sm text-gray-500 pl-4 mt-1">Menampilkan data maksimal 1 minggu terakhir.</p></div>
+        <button onclick="openPlanModal()" class="bg-theme2 hover:bg-theme1 text-white px-4 py-2 rounded text-sm font-bold shadow flex items-center transition"><i class="ph ph-plus-circle mr-2"></i> Tambah Plan</button>
+      </div>
+      <div class="bg-white rounded-lg shadow-md border border-gray-200 w-full overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead><tr class="bg-gray-50 text-xs text-theme1 uppercase tracking-wider border-b"><th class="p-4">ID</th><th class="p-4">Tanggal</th><th class="p-4">Mitra</th><th class="p-4 text-center">Loading OB</th><th class="p-4 text-center">Loading Coal</th><th class="p-4 text-center">Disposal</th><th class="p-4 text-center">Action</th></tr></thead>
+            <tbody id="planTableBody" class="text-sm divide-y divide-gray-100"></tbody>
+          </table>
+          <div id="planEmpty" class="hidden p-8 text-center text-gray-400">Loading Data / Kosong</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA MANAGEMENT (MASTER) -->
+    <section id="section-management" class="tab-section hidden">
+      <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end">
+        <div><h2 class="text-xl font-bold text-theme1 border-l-4 border-theme4 pl-3">Data Master Administrator</h2></div>
+        <div class="mt-4 md:mt-0 flex space-x-2 items-center">
+            <!-- Filter Tanggal (Hanya Muncul Untuk Tabel Gradebox) -->
+            <div id="mgmtDateFilters" class="hidden items-center space-x-2 mr-2">
+                <input type="date" id="mgmt_start" class="border border-theme3 rounded px-2 py-2 text-xs font-mono focus:outline-none">
+                <span class="text-xs text-gray-500 font-bold">SD</span>
+                <input type="date" id="mgmt_end" class="border border-theme3 rounded px-2 py-2 text-xs font-mono focus:outline-none">
+                <button onclick="fetchManagementData()" class="bg-theme2 text-white px-3 py-2 rounded text-xs font-bold shadow"><i class="ph ph-magnifying-glass"></i> Filter</button>
+            </div>
+            <select id="mgmtSelect" onchange="toggleMgmtFilters(); fetchManagementData()" class="border border-theme2 rounded px-3 py-2 text-sm font-bold text-theme1 focus:outline-none bg-theme5 bg-opacity-30">
+                <option value="Surveyor">Tabel Surveyor</option>
+                <option value="Data">Tabel Gradebox</option>
+            </select>
+            <button onclick="openMgmtModal()" id="btnMgmtAdd" class="bg-theme2 hover:bg-theme1 text-white px-4 py-2 rounded text-sm font-bold shadow flex items-center transition"><i class="ph ph-plus-circle mr-2"></i> Tambah</button>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-md border border-gray-200 w-full overflow-hidden">
+        <div class="bg-theme5 bg-opacity-20 px-4 py-2 border-b border-theme5 flex justify-end items-center">
+            <button onclick="downloadMgmtCSV()" class="text-xs font-semibold px-3 py-1 bg-white border border-theme3 text-theme2 hover:bg-theme5 rounded transition flex items-center"><i class="ph ph-download-simple mr-1"></i> Download CSV</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead id="mgmtTableHead" class="bg-gray-50 text-xs text-theme1 uppercase tracking-wider border-b"></thead>
+            <tbody id="mgmtTableBody" class="text-sm divide-y divide-gray-100"></tbody>
+          </table>
+          <div id="mgmtEmpty" class="hidden p-8 text-center text-gray-400">Loading Data / Kosong</div>
+        </div>
+        <!-- Paging Controls -->
+        <div id="mgmtPagination" class="bg-gray-50 px-4 py-3 border-t border-gray-200 flex justify-between items-center text-sm"></div>
+      </div>
+    </section>
   </main>
 
+  <!-- MAP SECTION -->
   <section id="section-map" class="tab-section hidden absolute top-[64px] left-0 w-full z-0 h-[calc(100vh-64px)] bg-gray-200">
     <div id="mapContainer" class="w-full h-full z-0"></div>
-    
     <div id="filter-container-map" class="absolute top-4 left-14 z-[400] bg-white p-2 rounded shadow-lg border border-gray-200 text-xs font-semibold flex flex-col md:flex-row gap-2">
       <span class="text-gray-500 flex items-center pr-2 md:border-r border-gray-200"><i class="ph ph-funnel mr-1"></i> Filter:</span>
       <div class="flex gap-2">
@@ -246,7 +297,6 @@
           <button onclick="setMitraFilter('PPA', 'map')" id="flt-map-PPA" class="px-3 py-1 bg-white text-theme1 border border-theme2 rounded transition shadow-sm">PPA</button>
       </div>
     </div>
-
     <div class="absolute top-4 right-4 z-[400] bg-white p-3 rounded shadow-lg border border-gray-200 text-xs font-semibold">
       <div class="flex items-center mb-2"><span class="w-3 h-3 rounded-full mr-2 shadow" style="background-color: #80ed99;"></span> Pit (OB)</div>
       <div class="flex items-center mb-2"><span class="w-3 h-3 rounded-full mr-2 shadow" style="background-color: #22577a;"></span> Pit (Coal)</div>
@@ -254,25 +304,17 @@
     </div>
   </section>
 
+  <!-- MODAL: DETAILS / PENGAWAS -->
   <div id="modalDetails" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
       <div class="bg-theme1 text-white px-5 py-3 flex justify-between items-center"><h3 class="font-bold text-lg" id="mdl_title"><i class="ph ph-list-magnifying-glass mr-2 text-theme4"></i>Detail Data</h3><button onclick="closeModal()" class="text-gray-300 hover:text-white"><i class="ph ph-x text-2xl"></i></button></div>
       <div class="p-5 overflow-y-auto bg-gray-50 flex-grow grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-        <div class="col-span-2 md:col-span-1"><span class="block text-gray-500 text-xs">Waktu & Surveyor</span><strong id="mdl_waktu" class="text-theme1 block"></strong></div>
+        <div class="col-span-2 md:col-span-1"><span class="block text-gray-500 text-xs">Waktu (ISO) & Surveyor</span><strong id="mdl_waktu" class="text-theme1 block text-xs"></strong></div>
         <div class="col-span-2 md:col-span-1"><span class="block text-gray-500 text-xs">Area & Material</span><strong id="mdl_area" class="text-theme1 block"></strong></div>
         <div class="col-span-2 border-t border-gray-200 my-1"></div>
         <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-3 rounded mb-1"><span class="text-gray-400 text-xs block">Nama Front</span><span id="mdl_front" class="font-semibold text-theme2"></span></div>
-        
-        <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-3 rounded mb-1">
-          <span class="text-gray-400 text-xs block font-bold mb-2">Foto Surveyor Lapangan</span>
-          <div id="mdl_photo_container" class="mt-2 text-center"></div>
-        </div>
-        
-        <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-3 rounded mb-1" id="mdl_photo_spv_wrapper" style="display:none;">
-          <span class="text-gray-400 text-xs block font-bold mb-2">Foto Verifikasi Pengawas</span>
-          <div id="mdl_photo_spv_container" class="mt-2 text-center"></div>
-        </div>
-
+        <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-3 rounded mb-1"><span class="text-gray-400 text-xs block font-bold mb-2">Foto Lapangan</span><div id="mdl_photo_container" class="mt-2 text-center"></div></div>
+        <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-3 rounded mb-1" id="mdl_photo_spv_wrapper" style="display:none;"><span class="text-gray-400 text-xs block font-bold mb-2">Foto Verifikasi Pengawas</span><div id="mdl_photo_spv_container" class="mt-2 text-center"></div></div>
         <div class="bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">Easting</span><span id="mdl_e" class="font-mono font-medium text-theme1"></span></div>
         <div class="bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">Northing</span><span id="mdl_n" class="font-mono font-medium text-theme1"></span></div>
         <div class="bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">Actual Level</span><span id="mdl_act" class="font-mono font-medium text-theme1"></span></div>
@@ -280,24 +322,46 @@
         <div class="bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">Target RL</span><span id="mdl_trg" class="font-mono font-medium text-theme1"></span></div>
         <div class="bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">RL Design</span><span id="mdl_rl" class="font-mono font-medium text-theme1"></span></div>
         <div class="col-span-2 bg-white border border-gray-200 shadow-sm p-2 rounded"><span class="text-gray-400 text-xs block">Grade</span><span id="mdl_grd" class="font-mono font-medium text-theme2"></span></div>
-        
         <div class="col-span-2 mt-4" id="pengawas_input_container">
           <label class="block text-gray-500 text-xs font-bold mb-1 border-b pb-1">Input Verifikasi Pengawas</label>
           <input type="text" id="modal_pengawas_input" placeholder="Ketik nama verifikator di sini..." class="w-full border border-theme3 bg-theme5 bg-opacity-20 rounded px-3 py-2 font-semibold text-theme1 focus:ring-1 focus:ring-theme2 focus:outline-none mb-3">
-          
           <label class="block text-gray-500 text-xs font-bold mb-1">Foto Verifikasi (Opsional)</label>
-          <div class="flex space-x-3 mb-2">
-            <button type="button" onclick="triggerModalCamera()" class="flex-1 bg-theme2 hover:bg-theme1 text-white font-semibold text-xs py-2 px-3 rounded transition shadow flex items-center justify-center"><i class="ph ph-camera text-base mr-2"></i> Kamera</button>
-            <button type="button" onclick="triggerModalGallery()" class="flex-1 bg-white border border-theme3 hover:bg-gray-50 text-theme1 font-semibold text-xs py-2 px-3 rounded transition shadow flex items-center justify-center"><i class="ph ph-image text-base mr-2"></i> Galeri</button>
-          </div>
+          <div class="flex space-x-3 mb-2"><button type="button" onclick="triggerModalCamera()" class="flex-1 bg-theme2 hover:bg-theme1 text-white font-semibold text-xs py-2 px-3 rounded transition shadow flex items-center justify-center"><i class="ph ph-camera text-base mr-2"></i> Kamera</button><button type="button" onclick="triggerModalGallery()" class="flex-1 bg-white border border-theme3 hover:bg-gray-50 text-theme1 font-semibold text-xs py-2 px-3 rounded transition shadow flex items-center justify-center"><i class="ph ph-image text-base mr-2"></i> Galeri</button></div>
           <input type="file" id="modal_photoInput" accept="image/*" class="hidden" onchange="showModalFileName()">
           <p id="modal_photoFileName" class="text-xs text-gray-500 font-mono italic">Belum ada foto verifikasi.</p>
         </div>
       </div>
-      <div class="bg-white px-5 py-3 border-t border-gray-200 flex justify-end space-x-3">
-        <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded font-semibold transition">Tutup</button>
-        <button onclick="savePengawas()" id="btnSavePengawas" class="px-6 py-2 bg-theme2 hover:bg-theme1 text-white rounded font-bold transition flex items-center shadow"><i class="ph ph-check-circle text-lg mr-2"></i> Simpan</button>
-      </div>
+      <div class="bg-white px-5 py-3 border-t border-gray-200 flex justify-end space-x-3"><button onclick="closeModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded font-semibold transition">Tutup</button><button onclick="savePengawas()" id="btnSavePengawas" class="px-6 py-2 bg-theme2 hover:bg-theme1 text-white rounded font-bold transition flex items-center shadow"><i class="ph ph-check-circle text-lg mr-2"></i> Simpan</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL: PLAN CRUD -->
+  <div id="modalPlan" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col overflow-hidden">
+      <div class="bg-theme1 text-white px-5 py-3 flex justify-between items-center"><h3 class="font-bold text-lg"><i class="ph ph-calendar-plus mr-2 text-theme4"></i>Form Plan</h3><button onclick="closePlanModal()" class="text-gray-300 hover:text-white"><i class="ph ph-x text-2xl"></i></button></div>
+      <form id="planForm" class="p-5 space-y-4" onsubmit="savePlan(event)">
+        <input type="hidden" id="plan_id">
+        <div><label class="block text-sm font-semibold mb-1">Tanggal</label><input type="date" id="plan_date" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+        <div><label class="block text-sm font-semibold mb-1">Mitra Kerja</label><input type="text" id="plan_mitra" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 font-bold text-gray-500"></div>
+        <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold mb-1 text-theme1">Loading OB</label><input type="number" id="plan_ob" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+            <div><label class="block text-sm font-semibold mb-1 text-theme1">Loading Coal</label><input type="number" id="plan_coal" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+        </div>
+        <div><label class="block text-sm font-semibold mb-1 text-theme2">Disposal</label><input type="number" id="plan_disposal" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+        <div class="pt-2 border-t border-gray-200 flex justify-end space-x-3"><button type="button" onclick="closePlanModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded font-semibold transition">Batal</button><button type="submit" id="btnSavePlan" class="px-6 py-2 bg-theme2 text-white rounded font-bold transition flex items-center shadow">Simpan</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: MANAGEMENT CRUD -->
+  <div id="modalMgmt" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md flex flex-col overflow-hidden">
+      <div class="bg-theme1 text-white px-5 py-3 flex justify-between items-center"><h3 class="font-bold text-lg"><i class="ph ph-database mr-2 text-theme4"></i>Form Master</h3><button onclick="closeMgmtModal()" class="text-gray-300 hover:text-white"><i class="ph ph-x text-2xl"></i></button></div>
+      <form id="mgmtForm" class="p-5 space-y-4" onsubmit="saveMgmt(event)">
+        <input type="hidden" id="mgmt_sheet">
+        <div id="mgmt_fields"></div>
+        <div class="pt-2 border-t border-gray-200 flex justify-end space-x-3"><button type="button" onclick="closeMgmtModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded font-semibold transition">Batal</button><button type="submit" id="btnSaveMgmt" class="px-6 py-2 bg-theme2 text-white rounded font-bold transition flex items-center shadow">Simpan</button></div>
+      </form>
     </div>
   </div>
 
@@ -317,7 +381,14 @@
 
     let currentUser = null;
     let materialChartInst = null, areaChartInst = null, timeChartInst = null, mapInstance = null, mapMarkersLayer = null;
-    let globalTableData = [], allSurveyors = [], activeRecordId = null;
+    let globalTableData = [], globalTodayPlanData = [], allSurveyors = [], activeRecordId = null;
+    let currentDashboardData = []; // Export CSV Dashboard
+    let currentMgmtData = []; // Export CSV Management
+    
+    // Pagination Management Variable
+    let mgmtCurrentPage = 1;
+    const mgmtRowsPerPage = 10;
+    
     let activeMitraFilter = { pengawas: 'Semua', dashboard: 'Semua', map: 'Semua' };
     let activeChartFilter = { type: null, value: null, statusCheck: null }; 
     const OFFLINE_KEY = "gradebox_offline_data";
@@ -355,7 +426,7 @@
       });
     }
 
-    // KAMERA CUSTOM FORM UTAMA
+    // KAMERA CUSTOM FORM UTAMA & MODAL
     function triggerCamera() { const f = document.getElementById('photoInput'); f.setAttribute('capture', 'environment'); f.click(); }
     function triggerGallery() { const f = document.getElementById('photoInput'); f.removeAttribute('capture'); f.click(); }
     function showFileName() {
@@ -364,7 +435,6 @@
       else d.textContent = "Belum ada foto yang dipilih.";
     }
 
-    // KAMERA CUSTOM FORM MODAL PENGAWAS
     function triggerModalCamera() { const f = document.getElementById('modal_photoInput'); f.setAttribute('capture', 'environment'); f.click(); }
     function triggerModalGallery() { const f = document.getElementById('modal_photoInput'); f.removeAttribute('capture'); f.click(); }
     function showModalFileName() {
@@ -373,15 +443,10 @@
       else d.textContent = "Belum ada foto verifikasi.";
     }
 
-    // LOGIKA AREA KERJA -> MATERIAL (DISPOSAL = OB ONLY)
     function toggleMaterial() {
       const area = document.querySelector('input[name="area_kerja"]:checked');
-      if(area && area.value === 'Disposal (Dumping)') {
-         document.getElementById('wrap_mat_coal').style.display = 'none';
-         document.getElementById('mat_ob').checked = true;
-      } else {
-         document.getElementById('wrap_mat_coal').style.display = 'inline-flex';
-      }
+      if(area && area.value === 'Disposal (Dumping)') { document.getElementById('wrap_mat_coal').style.display = 'none'; document.getElementById('mat_ob').checked = true; } 
+      else { document.getElementById('wrap_mat_coal').style.display = 'inline-flex'; }
     }
 
     function getMarkerHtmlStyle(color) { return 'background-color:' + color + '; width:16px; height:16px; border-radius:50%; border:2px solid #FFFFFF; box-shadow:0 2px 5px rgba(0,0,0,0.5);'; }
@@ -395,6 +460,10 @@
       window.addEventListener('online', checkNetworkStatus);
       window.addEventListener('offline', checkNetworkStatus);
       checkNetworkStatus();
+
+      // Inisialisasi Tanggal Filter Data Master Default (1 Hari Kebelakang - Hari ini)
+      const today = new Date(); const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+      document.getElementById('mgmt_start').value = yesterday.toISOString().split('T')[0]; document.getElementById('mgmt_end').value = today.toISOString().split('T')[0];
 
       const savedAuth = localStorage.getItem('gradebox_auth');
       if (savedAuth) {
@@ -415,8 +484,7 @@
       const u = document.getElementById('login_user').value, p = document.getElementById('login_pass').value;
       const userFound = USER_DB.find(function(x) { return x.user === u && x.pass === p; });
       if (userFound) {
-        currentUser = userFound;
-        localStorage.setItem('gradebox_auth', JSON.stringify(currentUser));
+        currentUser = userFound; localStorage.setItem('gradebox_auth', JSON.stringify(currentUser));
         document.getElementById('login-section').classList.add('hidden'); document.body.classList.remove('no-scroll');
         setupUserEnvironment();
       } else { Swal.fire('Error', 'Username atau Password salah!', 'error'); }
@@ -428,6 +496,10 @@
       document.getElementById('mob-tab-survey').style.display = isSurv ? 'block' : 'none';
       document.getElementById('desk-tab-pengawas').style.display = isPeng ? 'block' : 'none';
       document.getElementById('mob-tab-pengawas').style.display = isPeng ? 'block' : 'none';
+      document.getElementById('desk-tab-plan').style.display = isPeng ? 'block' : 'none';
+      document.getElementById('mob-tab-plan').style.display = isPeng ? 'block' : 'none';
+      document.getElementById('desk-tab-management').style.display = isPeng ? 'block' : 'none';
+      document.getElementById('mob-tab-management').style.display = isPeng ? 'block' : 'none';
       
       const uiInfo = document.getElementById('userInfoDisplay');
       uiInfo.classList.remove('hidden'); uiInfo.innerHTML = '<i class="ph ph-user"></i> ' + currentUser.user + ' | ' + currentUser.mitra;
@@ -462,19 +534,12 @@
       else { document.getElementById('offlineBanner').classList.remove('hidden'); document.getElementById('offlineIndicatorMobile').classList.remove('hidden'); }
     }
 
-    function saveOfflineData(dataObj) {
-      let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || []; saved.push(dataObj); localStorage.setItem(OFFLINE_KEY, JSON.stringify(saved)); updateOfflineUI();
-    }
-    function updateOfflineUI() {
-      let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
-      const banner = document.getElementById('syncBanner');
-      if (saved.length > 0) { banner.classList.remove('hidden'); document.getElementById('syncCount').textContent = saved.length; } else { banner.classList.add('hidden'); }
-    }
+    function saveOfflineData(dataObj) { let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || []; saved.push(dataObj); localStorage.setItem(OFFLINE_KEY, JSON.stringify(saved)); updateOfflineUI(); }
+    function updateOfflineUI() { let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || []; const banner = document.getElementById('syncBanner'); if (saved.length > 0) { banner.classList.remove('hidden'); document.getElementById('syncCount').textContent = saved.length; } else { banner.classList.add('hidden'); } }
 
     async function syncOfflineData() {
       if (!navigator.onLine) { Swal.fire('Koneksi Terputus', 'Anda masih offline.', 'warning'); return; }
-      let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || [];
-      if (saved.length === 0) return;
+      let saved = JSON.parse(localStorage.getItem(OFFLINE_KEY)) || []; if (saved.length === 0) return;
       Swal.fire({ title: 'Sinkronisasi...', text: 'Memproses ' + saved.length + ' data ke server...', allowOutsideClick: false, didOpen: function() { Swal.showLoading(); } });
       try {
         for (let i = 0; i < saved.length; i++) saved[i].generatedId = saved[i].offlineId.replace('OFF-', 'GBX-'); 
@@ -484,11 +549,9 @@
       } catch (err) { Swal.fire('Error Sinkronisasi', err.message, 'error'); }
     }
 
-    function toBase64(file) {
-      return new Promise(function(resolve, reject) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = function() { resolve(reader.result.split(',')[1]); }; reader.onerror = function(e) { reject(e); }; });
-    }
-
+    function toBase64(file) { return new Promise(function(resolve, reject) { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = function() { resolve(reader.result.split(',')[1]); }; reader.onerror = function(e) { reject(e); }; }); }
     function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+    
     function switchTab(tabId) {
       document.querySelectorAll('.tab-section').forEach(function(sec) { sec.classList.add('hidden'); });
       document.querySelectorAll('nav button').forEach(function(btn) { btn.classList.remove('nav-active'); });
@@ -500,7 +563,11 @@
       if (tabId === 'map') { 
         mainContainer.classList.add('hidden'); document.body.classList.add('no-scroll'); 
         setTimeout(function() { if (mapInstance) { mapInstance.invalidateSize(); if(mapMarkersLayer) { try { mapInstance.fitBounds(mapMarkersLayer.getBounds(), { padding: [50, 50] }); } catch(e){} } } }, 300); 
-      } else { mainContainer.classList.remove('hidden'); document.body.classList.remove('no-scroll'); }
+      } else { 
+        mainContainer.classList.remove('hidden'); document.body.classList.remove('no-scroll'); 
+        if (tabId === 'plan') fetchPlanData();
+        if (tabId === 'management') fetchManagementData();
+      }
     }
 
     async function loadDropdowns(forceSync = false) {
@@ -544,15 +611,70 @@
       if (context === 'map') computeAndRenderMap();
     }
 
+    function convertToCSV(objArray) {
+        if(!objArray || objArray.length === 0) return '';
+        const array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        let str = '';
+        const keys = Object.keys(array[0]).filter(k => k !== 'photo_url' && k !== 'photo_spv' && k !== '_row'); 
+        str += keys.join(',') + '\r\n';
+        for (let i = 0; i < array.length; i++) {
+            let line = '';
+            for (let index in keys) {
+                if (line != '') line += ',';
+                let value = array[i][keys[index]];
+                if (typeof value === 'string') {
+                    value = value.replace(/"/g, '""');
+                    if (value.search(/("|,|\n)/g) >= 0) value = '"' + value + '"';
+                }
+                line += value;
+            }
+            str += line + '\r\n';
+        }
+        return str;
+    }
+
+    function triggerDownloadCSV(csvString, filename) {
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url); link.setAttribute("download", filename + ".csv"); link.style.visibility = 'hidden';
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    }
+
+    function downloadDashboardCSV() {
+        if(currentDashboardData.length === 0) { Swal.fire('Kosong', 'Tidak ada data untuk didownload', 'info'); return; }
+        triggerDownloadCSV(convertToCSV(currentDashboardData), 'Gradebox_Dashboard_Data_' + new Date().getTime());
+    }
+
+    function downloadMgmtCSV() {
+        if(currentMgmtData.length === 0) { Swal.fire('Kosong', 'Tidak ada data untuk didownload', 'info'); return; }
+        triggerDownloadCSV(convertToCSV(currentMgmtData), 'MasterData_' + document.getElementById('mgmtSelect').value + '_' + new Date().getTime());
+    }
+
+    function formatMockDate(d) {
+        const pad = (n) => n < 10 ? '0'+n : n;
+        return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    }
+
     async function fetchTodayData() {
       if(!currentUser) return; 
       if (navigator.onLine) {
         try {
           const res = await fetch(GAS_API_URL + "?action=getTodayData", { redirect: "follow" });
           const data = await res.json();
-          globalTableData = data.tableData || []; renderPengawasTable(); computeAndRenderDashboard(); computeAndRenderMap(); 
+          globalTableData = data.tableData || []; 
+          globalTodayPlanData = data.planData || []; 
+          renderPengawasTable(); computeAndRenderDashboard(); computeAndRenderMap(); 
         } catch(e) {}
-      } else { globalTableData = []; renderPengawasTable(); computeAndRenderDashboard(); computeAndRenderMap(); }
+      } else { 
+        let mockDate1 = new Date(); mockDate1.setHours(8, 15, 0, 0);
+        let mockDate2 = new Date(); mockDate2.setHours(9, 30, 0, 0);
+        globalTableData = [
+          { id: '101', time: formatMockDate(mockDate1), surveyor: 'Andi', mitra: 'SIS', pengawas: 'Spv A', area: 'Pit (Loading)', material: 'Coal', nama_front: 'F1', grade: '2.5', lat: -2.161, lng: 115.582 },
+          { id: '102', time: formatMockDate(mockDate2), surveyor: 'Citra', mitra: 'BUMA', pengawas: '', area: 'Disposal (Dumping)', material: 'OB', nama_front: 'D1', grade: '1.2', lat: -2.155, lng: 115.590  }
+        ];
+        globalTodayPlanData = []; renderPengawasTable(); computeAndRenderDashboard(); computeAndRenderMap(); 
+      }
     }
 
     function renderPengawasTable() {
@@ -563,7 +685,7 @@
         empty.classList.add('hidden');
         filteredData.forEach(function(row) {
           const badgeColor = row.pengawas ? "bg-theme4 text-theme1" : "bg-red-100 text-red-700";
-          tbody.innerHTML += '<tr class="hover:bg-gray-50 transition"><td class="p-4 text-gray-500 font-mono">' + row.time + '</td><td class="p-4 font-mono font-medium text-theme2">' + row.id + '</td><td class="p-4 text-theme1 font-semibold">' + row.surveyor + ' <br><span class="text-xs text-gray-400 font-mono font-normal">Mitra: ' + row.mitra + '</span></td><td class="p-4 text-gray-600 text-xs font-semibold">' + row.area + ' <br><span class="text-gray-400 font-normal">' + row.material + '</span></td><td class="p-4"><span class="px-2 py-1 ' + badgeColor + ' rounded text-xs font-bold shadow-sm">' + (row.pengawas || "Belum Diperiksa") + '</span></td><td class="p-4 text-center space-x-2"><button onclick="openDetails(\'' + row.id + '\')" class="p-2 bg-theme5 bg-opacity-30 text-theme1 hover:bg-theme4 rounded-lg"><i class="ph-fill ph-eye text-xl"></i></button><button onclick="confirmDelete(\'' + row.id + '\')" class="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg"><i class="ph-fill ph-trash text-xl"></i></button></td></tr>';
+          tbody.innerHTML += '<tr class="hover:bg-gray-50 transition"><td class="p-4 text-gray-500 font-mono text-xs max-w-[120px] truncate" title="'+row.time+'">' + row.time + '</td><td class="p-4 font-mono font-medium text-theme2">' + row.id + '</td><td class="p-4 text-theme1 font-semibold">' + row.surveyor + ' <br><span class="text-xs text-gray-400 font-mono font-normal">Mitra: ' + row.mitra + '</span></td><td class="p-4 text-gray-600 text-xs font-semibold">' + row.area + ' <br><span class="text-gray-400 font-normal">' + row.material + '</span></td><td class="p-4"><span class="px-2 py-1 ' + badgeColor + ' rounded text-xs font-bold shadow-sm">' + (row.pengawas || "Belum Diperiksa") + '</span></td><td class="p-4 text-center space-x-2"><button onclick="openDetails(\'' + row.id + '\')" class="p-2 bg-theme5 bg-opacity-30 text-theme1 hover:bg-theme4 rounded-lg"><i class="ph-fill ph-eye text-xl"></i></button><button onclick="confirmDelete(\'' + row.id + '\', \'Data\')" class="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg"><i class="ph-fill ph-trash text-xl"></i></button></td></tr>';
         });
       }
     }
@@ -578,29 +700,37 @@
         photoContainer.innerHTML = '<img src="' + rec.photo_url + '" class="rounded border border-gray-200 w-full max-h-[250px] object-cover cursor-pointer hover:opacity-90 mb-2" onclick="window.open(\'' + rec.photo_url + '\', \'_blank\')"><a href="' + rec.photo_url + '" target="_blank" class="text-theme2 font-semibold hover:underline flex justify-center text-xs"><i class="ph ph-arrow-square-out mr-1"></i> Buka Gambar Full</a>';
       } else { photoContainer.innerHTML = '<span class="text-gray-400 text-sm italic">Tidak ada foto / Gagal Upload</span>'; }
 
-      // Menampilkan Foto Verifikasi Jika Ada
-      const photoSpvContainer = document.getElementById('mdl_photo_spv_container');
+      const photoSpvContainer = document.getElementById('mdl_photo_spv_container'); 
       const photoSpvWrapper = document.getElementById('mdl_photo_spv_wrapper');
+      
       if (rec.photo_spv && rec.photo_spv !== 'No Photo' && rec.photo_spv.startsWith('http')) {
         photoSpvWrapper.style.display = 'block';
         photoSpvContainer.innerHTML = '<img src="' + rec.photo_spv + '" class="rounded border border-gray-200 w-full max-h-[250px] object-cover cursor-pointer hover:opacity-90 mb-2" onclick="window.open(\'' + rec.photo_spv + '\', \'_blank\')"><a href="' + rec.photo_spv + '" target="_blank" class="text-theme2 font-semibold hover:underline flex justify-center text-xs"><i class="ph ph-arrow-square-out mr-1"></i> Buka Gambar Full</a>';
-      } else { photoSpvWrapper.style.display = 'none'; photoSpvContainer.innerHTML = ''; }
+      } else { 
+        photoSpvWrapper.style.display = 'none'; 
+        photoSpvContainer.innerHTML = ''; 
+      }
 
-      document.getElementById('mdl_e').textContent = rec.easting; document.getElementById('mdl_n').textContent = rec.northing; document.getElementById('mdl_act').textContent = rec.actual_level; document.getElementById('mdl_tinggi').textContent = rec.tinggi_benang; document.getElementById('mdl_trg').textContent = rec.target_rl; document.getElementById('mdl_rl').textContent = rec.rl_design; document.getElementById('mdl_grd').textContent = rec.grade;
+      document.getElementById('mdl_e').textContent = rec.easting; 
+      document.getElementById('mdl_n').textContent = rec.northing; 
+      document.getElementById('mdl_act').textContent = rec.actual_level; 
+      document.getElementById('mdl_tinggi').textContent = rec.tinggi_benang; 
+      document.getElementById('mdl_trg').textContent = rec.target_rl; 
+      document.getElementById('mdl_rl').textContent = rec.rl_design; 
+      document.getElementById('mdl_grd').textContent = rec.grade; 
       document.getElementById('modal_pengawas_input').value = rec.pengawas || "";
       
       const showPengawas = (currentUser && (currentUser.level === 'Pengawas' || currentUser.user === 'user_adaro')) ? 'block' : 'none';
       const showBtn = (currentUser && (currentUser.level === 'Pengawas' || currentUser.user === 'user_adaro')) ? 'flex' : 'none';
-      document.getElementById('pengawas_input_container').style.display = showPengawas; document.getElementById('btnSavePengawas').style.display = showBtn;
-      document.getElementById('modalDetails').classList.remove('hidden'); document.body.classList.add('no-scroll');
+      document.getElementById('pengawas_input_container').style.display = showPengawas; 
+      document.getElementById('btnSavePengawas').style.display = showBtn;
+      document.getElementById('modalDetails').classList.remove('hidden'); 
+      document.body.classList.add('no-scroll');
     }
 
     function closeModal() { 
-      document.getElementById('modalDetails').classList.add('hidden'); document.body.classList.remove('no-scroll'); 
-      activeRecordId = null; 
-      // Reset input form foto verifikasi
-      document.getElementById('modal_photoInput').value = '';
-      document.getElementById('modal_photoFileName').textContent = 'Belum ada foto verifikasi.';
+      document.getElementById('modalDetails').classList.add('hidden'); document.body.classList.remove('no-scroll'); activeRecordId = null; 
+      document.getElementById('modal_photoInput').value = ''; document.getElementById('modal_photoFileName').textContent = 'Belum ada foto verifikasi.';
     }
 
     async function savePengawas() {
@@ -608,8 +738,7 @@
       if (!val) { Swal.fire('Perhatian', 'Nama verifikator tidak boleh kosong', 'warning'); return; }
       if (!navigator.onLine) { Swal.fire('Error', 'Internet terputus.', 'error'); return; }
       
-      const fileInput = document.getElementById('modal_photoInput');
-      let photoBase64 = null; let photoMime = null;
+      const fileInput = document.getElementById('modal_photoInput'); let photoBase64 = null; let photoMime = null;
       if (fileInput.files.length > 0) { photoBase64 = await toBase64(fileInput.files[0]); photoMime = fileInput.files[0].type; }
 
       btn.disabled = true; btn.innerHTML = '<div class="loader h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"></div>';
@@ -622,14 +751,20 @@
       btn.disabled = false; btn.innerHTML = '<i class="ph ph-check-circle text-lg mr-2"></i> Simpan';
     }
 
-    function confirmDelete(id) {
+    function confirmDelete(id, sheetName) {
       if (!navigator.onLine) { Swal.fire('Error', 'Internet terputus.', 'error'); return; }
       Swal.fire({ title: 'Hapus Data?', text: 'Data ' + id + ' akan dihapus.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#e3342f', confirmButtonText: 'Hapus!' }).then(async function(result) { 
         if (result.isConfirmed) { 
            try {
-              const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteRecord', id: id }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
+              let actionName = sheetName === 'Plan' ? 'deletePlanData' : (sheetName === 'Data' ? 'deleteRecord' : 'deleteMaster');
+              const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: actionName, id: id, sheetName: sheetName }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
               const data = await res.json();
-              if(data.status === 'success') { Swal.fire('Dihapus!', '', 'success'); fetchTodayData(); } else throw new Error(data.message);
+              if(data.status === 'success') { 
+                  Swal.fire('Dihapus!', '', 'success'); 
+                  if(sheetName === 'Data') fetchTodayData(); 
+                  else if(sheetName === 'Plan') fetchPlanData();
+                  else fetchManagementData();
+              } else throw new Error(data.message);
            } catch(e) { Swal.fire('Error', e.toString(), 'error'); }
         } 
       });
@@ -645,7 +780,6 @@
       const form = document.getElementById('gradeboxForm'); const btnText = document.getElementById('btnText'), btnSpinner = document.getElementById('btnSpinner'), btn = document.getElementById('submitBtn');
       btnText.textContent = "MEMPROSES..."; btnSpinner.classList.remove('hidden'); btn.disabled = true;
       const formData = new FormData(form); const dataObj = Object.fromEntries(formData.entries()); dataObj.mitra_kerja = document.getElementById('mitra_kerja').value; 
-      
       const fileInput = document.getElementById('photoInput'); const hasFile = fileInput.files.length > 0; let file = hasFile ? fileInput.files[0] : null;
 
       if (!navigator.onLine) {
@@ -668,7 +802,6 @@
         btnText.textContent = "SIMPAN SERVER...";
         const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'processFormLogic', data: dataObj }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
         const resJson = await res.json();
-        
         if (resJson.status === 'success') {
           Swal.fire('Berhasil!', 'Data tersimpan ID: ' + resJson.data.id, 'success'); 
           form.reset(); document.getElementById('mitra_kerja').value = currentUser.mitra; document.getElementById('coordinates').value = ""; document.getElementById('photoFileName').textContent = "Belum ada foto yang dipilih."; filterSurveyor(); setDefaultDatetime(); toggleMaterial(); fetchTodayData();
@@ -678,42 +811,56 @@
       } catch (err) { Swal.fire('Kesalahan', 'Gagal: '+err.message, 'error'); btnText.textContent = "SUBMIT DATA"; btnSpinner.classList.add('hidden'); btn.disabled = false; }
     }
 
-    // --- 5. LOGIKA DASHBOARD ---
+    // --- DASHBOARD ---
     function computeAndRenderDashboard() {
       let bData = globalTableData;
       if (activeMitraFilter.dashboard !== 'Semua') { bData = globalTableData.filter(function(r) { return r.mitra === activeMitraFilter.dashboard; }); }
       
       let pOB = 0, pCoal = 0, disp = 0; const matStats = {}, areaStats = {}; const timeMap = {};
-      const sortedData = [...bData].sort(function(a, b) { return a.time.localeCompare(b.time); });
+      
+      // Standard Parsing logic for YYYY-MM-DD HH:mm:ss
+      const sortedData = [...bData].sort(function(a, b) { return new Date(a.time.replace(" ", "T")) - new Date(b.time.replace(" ", "T")); });
 
-      let buckets = [];
-      let validTimes = sortedData.map(function(d) { return d.time; }).filter(function(t) { return t && t.includes(':'); }).sort();
-      if (validTimes.length > 0) {
-        let minH = Number(validTimes[0].split(':')[0]), minM = Number(validTimes[0].split(':')[1]), maxH = Number(validTimes[validTimes.length - 1].split(':')[0]), maxM = Number(validTimes[validTimes.length - 1].split(':')[1]);
+      let buckets = []; 
+      let validDates = sortedData.map(function(d) { return new Date(d.time.replace(" ", "T")); }).filter(function(t) { return !isNaN(t.getTime()); });
+      if (validDates.length > 0) {
+        let minH = validDates[0].getHours(), minM = validDates[0].getMinutes();
+        let maxH = validDates[validDates.length - 1].getHours(), maxM = validDates[validDates.length - 1].getMinutes();
         minM = minM < 30 ? 0 : 30; maxM = maxM < 30 ? 30 : 60; if (maxM === 60) { maxH++; maxM = 0; }
         let curH = minH, curM = minM;
-        while(curH < maxH || (curH === maxH && curM <= maxM)) { let hStr = curH < 10 ? '0' + curH : curH.toString(); let bStr = hStr + ':' + (curM === 0 ? '00' : '30'); buckets.push(bStr); timeMap[bStr] = { pit: 0, disp: 0 }; curM += 30; if(curM >= 60) { curH++; curM = 0; } }
+        while(curH < maxH || (curH === maxH && curM <= maxM)) { 
+            let hStr = curH < 10 ? '0' + curH : curH.toString(); 
+            let bStr = hStr + ':' + (curM === 0 ? '00' : '30'); 
+            buckets.push(bStr); timeMap[bStr] = { pit: 0, disp: 0 }; curM += 30; if(curM >= 60) { curH++; curM = 0; } 
+        }
       }
 
       sortedData.forEach(function(r) {
         if (r.area === 'Pit (Loading)' && r.material === 'OB') pOB++; if (r.area === 'Pit (Loading)' && r.material === 'Coal') pCoal++; if (r.area === 'Disposal (Dumping)') disp++;
         const isChecked = Boolean(r.pengawas && r.pengawas.toString().trim() !== '');
 
-        if (r.area === 'Pit (Loading)' && r.material) {
-          if(!matStats[r.material]) matStats[r.material] = { checked: 0, unchecked: 0 };
-          if(isChecked) { matStats[r.material].checked++; } else { matStats[r.material].unchecked++; }
-        }
-        if (r.area) {
-          if(!areaStats[r.area]) areaStats[r.area] = { checked: 0, unchecked: 0 };
-          if(isChecked) { areaStats[r.area].checked++; } else { areaStats[r.area].unchecked++; }
-        }
-        if (r.time && r.time.includes(':')) {
-          let h = Number(r.time.split(':')[0]), m = Number(r.time.split(':')[1]), bucketM = m < 30 ? '00' : '30', hStr = h < 10 ? '0' + h : h.toString(), bucket = hStr + ':' + bucketM;
-          if(timeMap[bucket]) { if(r.area === 'Pit (Loading)') timeMap[bucket].pit++; if(r.area === 'Disposal (Dumping)') timeMap[bucket].disp++; }
+        if (r.area === 'Pit (Loading)' && r.material) { if(!matStats[r.material]) matStats[r.material] = { checked: 0, unchecked: 0 }; if(isChecked) { matStats[r.material].checked++; } else { matStats[r.material].unchecked++; } }
+        if (r.area) { if(!areaStats[r.area]) areaStats[r.area] = { checked: 0, unchecked: 0 }; if(isChecked) { areaStats[r.area].checked++; } else { areaStats[r.area].unchecked++; } }
+        
+        if (r.time) { 
+            let dObj = new Date(r.time.replace(" ", "T"));
+            if (!isNaN(dObj.getTime())) {
+                let h = dObj.getHours(), m = dObj.getMinutes(), bucketM = m < 30 ? '00' : '30', hStr = h < 10 ? '0' + h : h.toString(), bucket = hStr + ':' + bucketM; 
+                if(timeMap[bucket]) { if(r.area === 'Pit (Loading)') timeMap[bucket].pit++; if(r.area === 'Disposal (Dumping)') timeMap[bucket].disp++; } 
+            }
         }
       });
 
-      document.getElementById('cardTotal').textContent = bData.length; document.getElementById('cardPitOB').textContent = pOB; document.getElementById('cardPitCoal').textContent = pCoal; document.getElementById('cardDisposal').textContent = disp;
+      // Menghitung Plan untuk Data Cards
+      let planOB = 0, planCoal = 0, planDisp = 0;
+      let planCardData = globalTodayPlanData || [];
+      if (activeMitraFilter.dashboard !== 'Semua') { planCardData = planCardData.filter(r => r.mitra === activeMitraFilter.dashboard); }
+      planCardData.forEach(r => { planOB += r.ob; planCoal += r.coal; planDisp += r.disposal; });
+
+      document.getElementById('cardTotal').textContent = bData.length; 
+      document.getElementById('cardPitOB').textContent = pOB + ' / ' + planOB; 
+      document.getElementById('cardPitCoal').textContent = pCoal + ' / ' + planCoal; 
+      document.getElementById('cardDisposal').textContent = disp + ' / ' + planDisp;
       
       const mLabels = Object.keys(matStats); const aLabels = Object.keys(areaStats);
       const mChecked = mLabels.map(function(k) { return matStats[k].checked; }); const mUnchecked = mLabels.map(function(k) { return matStats[k].unchecked; });
@@ -740,54 +887,193 @@
       let bData = globalTableData; if (activeMitraFilter.dashboard !== 'Semua') { bData = globalTableData.filter(function(r) { return r.mitra === activeMitraFilter.dashboard; }); }
       renderDashboardTable(bData);
     }
-
     function resetDashboardFilter() { activeChartFilter = { type: null, value: null, statusCheck: null }; document.getElementById('btnResetFilter').classList.add('hidden'); computeAndRenderDashboard(); }
 
     function renderDashboardTable(bData) {
-      const tb = document.getElementById('dashboardTableBody'); const em = document.getElementById('dashTableEmpty'); const lbl = document.getElementById('tableFilterStatus'); tb.innerHTML = '';
-      let finalData = bData; 
-      
+      const tb = document.getElementById('dashboardTableBody'); const em = document.getElementById('dashTableEmpty'); const lbl = document.getElementById('tableFilterStatus'); tb.innerHTML = ''; let finalData = bData; 
       if (activeChartFilter.type !== null) {
         if (activeChartFilter.type === 'material') { finalData = finalData.filter(function(r) { return r.material === activeChartFilter.value && r.area === 'Pit (Loading)'; }); } 
         else if (activeChartFilter.type === 'area') { finalData = finalData.filter(function(r) { return r.area === activeChartFilter.value; }); }
-        
-        const wantChecked = activeChartFilter.statusCheck === 'checked';
-        finalData = finalData.filter(function(r) { const isCh = Boolean(r.pengawas && r.pengawas.toString().trim() !== ''); return isCh === wantChecked; });
+        const wantChecked = activeChartFilter.statusCheck === 'checked'; finalData = finalData.filter(function(r) { const isCh = Boolean(r.pengawas && r.pengawas.toString().trim() !== ''); return isCh === wantChecked; });
         lbl.textContent = 'Filter Aktif: ' + activeChartFilter.value + ' (' + (wantChecked ? 'Telah Diperiksa' : 'Belum Diperiksa') + ')';
       } else { lbl.textContent = "Menampilkan: Semua Data"; }
+      
+      currentDashboardData = finalData;
 
       if(finalData.length === 0){ em.classList.remove('hidden'); } else {
         em.classList.add('hidden'); 
         finalData.forEach(function(r) { 
-          const isVerified = Boolean(r.pengawas && r.pengawas.toString().trim() !== '');
-          const bColor = isVerified ? "text-theme1 bg-theme4 shadow-sm" : "text-red-500 bg-red-50";
-          tb.innerHTML += '<tr class="hover:bg-gray-50"><td class="p-3 font-mono text-gray-500">' + r.time + '</td><td class="p-3 font-semibold text-theme1">' + r.surveyor + ' <br><span class="text-xs font-normal text-gray-400">Mitra: ' + r.mitra + '</span></td><td class="p-3 text-gray-600">' + r.area + '</td><td class="p-3"><span class="px-2 py-1 bg-gray-100 rounded text-xs font-semibold">' + r.material + '</span></td><td class="p-3"><span class="px-2 py-1 rounded text-xs font-bold ' + bColor + '">' + (r.pengawas || "-") + '</span></td><td class="p-3 text-theme2 font-semibold">' + r.nama_front + '</td><td class="p-3 font-mono">' + r.grade + '</td></tr>'; 
+          const isVerified = Boolean(r.pengawas && r.pengawas.toString().trim() !== ''); const bColor = isVerified ? "text-theme1 bg-theme4 shadow-sm" : "text-red-500 bg-red-50";
+          tb.innerHTML += '<tr class="hover:bg-gray-50"><td class="p-3 font-mono text-gray-500 text-xs max-w-[150px] truncate" title="'+r.time+'">' + r.time + '</td><td class="p-3 font-semibold text-theme1">' + r.surveyor + ' <br><span class="text-xs font-normal text-gray-400">Mitra: ' + r.mitra + '</span></td><td class="p-3 text-gray-600">' + r.area + '</td><td class="p-3"><span class="px-2 py-1 bg-gray-100 rounded text-xs font-semibold">' + r.material + '</span></td><td class="p-3"><span class="px-2 py-1 rounded text-xs font-bold ' + bColor + '">' + (r.pengawas || "-") + '</span></td><td class="p-3 text-theme2 font-semibold">' + r.nama_front + '</td><td class="p-3 font-mono">' + r.grade + '</td></tr>'; 
         });
       }
     }
 
-    // --- 6. LOGIKA PETA ---
-    function computeAndRenderMap() {
-      let mData = globalTableData;
-      if (activeMitraFilter.map !== 'Semua') { mData = globalTableData.filter(function(r) { return r.mitra === activeMitraFilter.map; }); }
-      mData = mData.filter(function(r) { return r.lat && r.lng && r.lat !== 0 && r.lng !== 0; }); renderMap(mData);
-    }
-
+    // --- PETA ---
+    function computeAndRenderMap() { let mData = globalTableData; if (activeMitraFilter.map !== 'Semua') { mData = globalTableData.filter(function(r) { return r.mitra === activeMitraFilter.map; }); } mData = mData.filter(function(r) { return r.lat && r.lng && r.lat !== 0 && r.lng !== 0; }); renderMap(mData); }
     function renderMap(mD) {
       if (!mapInstance) { mapInstance = L.map('mapContainer').setView([-2.16, 115.58], 11); L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18 }).addTo(mapInstance); }
       if (mapMarkersLayer) mapInstance.removeLayer(mapMarkersLayer); mapMarkersLayer = L.featureGroup().addTo(mapInstance);
 
       if (mD && mD.length > 0) { 
         mD.forEach(function(p) { 
-          const mIcon = getDynamicIcon(p.area, p.material);
-          const isVerified = Boolean(p.pengawas && p.pengawas.toString().trim() !== '');
+          const mIcon = getDynamicIcon(p.area, p.material); const isVerified = Boolean(p.pengawas && p.pengawas.toString().trim() !== '');
           const popupContent = '<div style="min-width: 220px;" class="font-sans"><h4 style="font-weight: bold; margin-bottom: 8px; padding-bottom:4px; color: #22577a; border-bottom: 2px solid #57cc99;">ID: ' + p.id + '</h4><table style="width: 100%; font-size: 11px; border-collapse: collapse;"><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold; width: 35%;">Waktu</td><td style="padding: 3px 0; color:#22577a;">' + p.time + '</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Surveyor</td><td style="padding: 3px 0; color:#22577a;">' + p.surveyor + ' (' + p.mitra + ')</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Area</td><td style="padding: 3px 0; color:#22577a;">' + p.area + '</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Material</td><td style="padding: 3px 0; color:#22577a;">' + p.material + '</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Front</td><td style="padding: 3px 0; color:#22577a;">' + p.nama_front + '</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Grade</td><td style="padding: 3px 0; color:#22577a; font-family: monospace;">' + p.grade + '</td></tr><tr><td style="padding: 3px 0; color: #38a3a5; font-weight: bold;">Status</td><td style="padding: 3px 0;"><span style="background-color:' + (isVerified ? '#80ed99' : '#fee2e2') + '; color:' + (isVerified ? '#22577a' : '#b91c1c') + '; padding: 2px 6px; border-radius: 4px; font-weight: bold;">' + (p.pengawas || 'Belum Diperiksa') + '</span></td></tr></table></div>';
-
           const mk = L.marker([p.lat, p.lng], {icon: mIcon}).bindPopup(popupContent); mapMarkersLayer.addLayer(mk); 
         }); 
         if (!document.getElementById('section-map').classList.contains('hidden')) { try { mapInstance.fitBounds(mapMarkersLayer.getBounds(), { padding: [50, 50] }); } catch(e){} }
       }
     }
+
+    // --- DATA PLAN ---
+    let globalPlanData = [];
+    async function fetchPlanData() {
+        if(!navigator.onLine) return;
+        const empty = document.getElementById('planEmpty'); const tb = document.getElementById('planTableBody');
+        empty.classList.remove('hidden'); empty.textContent = 'Loading...'; tb.innerHTML = '';
+        try {
+            const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'getPlanData' }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
+            const json = await res.json();
+            if(json.status === 'success') { globalPlanData = json.data || []; renderPlanTable(); } else throw new Error(json.message);
+        } catch(e) { empty.textContent = 'Gagal memuat data plan.'; }
+    }
+
+    function renderPlanTable() {
+        const tb = document.getElementById('planTableBody'); const empty = document.getElementById('planEmpty'); tb.innerHTML = '';
+        let filtered = globalPlanData;
+        if(currentUser && currentUser.user !== 'user_adaro') { filtered = globalPlanData.filter(function(r) { return r['Mitra Kerja'] === currentUser.mitra; }); }
+        if(filtered.length === 0) { empty.classList.remove('hidden'); empty.textContent = 'Tidak ada data Plan.'; }
+        else {
+            empty.classList.add('hidden');
+            filtered.forEach(function(r) {
+                tb.innerHTML += '<tr class="hover:bg-gray-50"><td class="p-4 font-mono text-theme2">' + r.ID + '</td><td class="p-4 font-semibold text-xs">' + r.Date + '</td><td class="p-4 text-theme1">' + r['Mitra Kerja'] + '</td><td class="p-4 text-center">' + (r['Loading OB']||0) + '</td><td class="p-4 text-center">' + (r['Loading Coal']||0) + '</td><td class="p-4 text-center text-theme2 font-bold">' + (r['Disposal']||0) + '</td><td class="p-4 text-center"><button onclick="editPlan(\''+r.ID+'\')" class="p-1 text-theme2 hover:bg-theme5 rounded"><i class="ph-fill ph-pencil-simple text-lg"></i></button> <button onclick="confirmDelete(\''+r.ID+'\', \'Plan\')" class="p-1 text-red-500 hover:bg-red-100 rounded"><i class="ph-fill ph-trash text-lg"></i></button></td></tr>';
+            });
+        }
+    }
+
+    function openPlanModal() {
+        document.getElementById('planForm').reset(); document.getElementById('plan_id').value = '';
+        const m = currentUser.user === 'user_adaro' ? 'Adaro' : currentUser.mitra;
+        document.getElementById('plan_mitra').value = m; document.getElementById('modalPlan').classList.remove('hidden');
+    }
+    function closePlanModal() { document.getElementById('modalPlan').classList.add('hidden'); }
+
+    function editPlan(id) {
+        const rec = globalPlanData.find(function(x) { return x.ID === id; }); if(!rec) return;
+        document.getElementById('plan_id').value = rec.ID; 
+        
+        // Memastikan edit form date hanya membutuhkan YYYY-MM-DD
+        let editDateStr = rec.Date;
+        if (editDateStr && editDateStr.includes(' ')) editDateStr = editDateStr.split(' ')[0];
+
+        document.getElementById('plan_date').value = editDateStr; 
+        document.getElementById('plan_mitra').value = rec['Mitra Kerja']; document.getElementById('plan_ob').value = rec['Loading OB']; document.getElementById('plan_coal').value = rec['Loading Coal']; document.getElementById('plan_disposal').value = rec['Disposal']; document.getElementById('modalPlan').classList.remove('hidden');
+    }
+
+    async function savePlan(e) {
+        e.preventDefault(); const btn = document.getElementById('btnSavePlan'); btn.disabled = true; btn.textContent = 'Menyimpan...';
+        const payload = { id: document.getElementById('plan_id').value, date: document.getElementById('plan_date').value, mitra: document.getElementById('plan_mitra').value, ob: document.getElementById('plan_ob').value, coal: document.getElementById('plan_coal').value, disposal: document.getElementById('plan_disposal').value };
+        try {
+            const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'savePlanData', data: payload }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
+            const json = await res.json();
+            if(json.status === 'success') { Swal.fire({toast: true, position: 'top-end', icon: 'success', title: 'Plan Disimpan', showConfirmButton: false, timer: 1500}); closePlanModal(); fetchPlanData(); } else throw new Error(json.message);
+        } catch(err) { Swal.fire('Error', err.toString(), 'error'); }
+        btn.disabled = false; btn.textContent = 'Simpan';
+    }
+
+    // --- DATA MANAGEMENT (MASTER) ---
+    function toggleMgmtFilters() {
+       const sheet = document.getElementById('mgmtSelect').value;
+       const filters = document.getElementById('mgmtDateFilters');
+       if (sheet === 'Data') filters.classList.remove('hidden'); else filters.classList.add('hidden');
+    }
+
+    async function fetchManagementData() {
+        if(!navigator.onLine) return;
+        const sheet = document.getElementById('mgmtSelect').value;
+        const start = document.getElementById('mgmt_start').value; const end = document.getElementById('mgmt_end').value;
+        const tbH = document.getElementById('mgmtTableHead'); const tbB = document.getElementById('mgmtTableBody'); const empty = document.getElementById('mgmtEmpty');
+        empty.classList.remove('hidden'); empty.textContent = 'Loading...'; tbH.innerHTML = ''; tbB.innerHTML = ''; document.getElementById('btnMgmtAdd').style.display = sheet === 'Data' ? 'none' : 'flex';
+
+        try {
+            const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'getMasterData', sheetName: sheet, startDate: start, endDate: end }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
+            const json = await res.json();
+            if(json.status === 'success') {
+                let mData = json.data || [];
+                if(currentUser && currentUser.user !== 'user_adaro') {
+                    if (sheet === 'Surveyor') mData = mData.filter(function(r) { return r['Mitra'] === currentUser.mitra || r['Mitra Kerja'] === currentUser.mitra; });
+                    else if (sheet === 'Data') mData = mData.filter(function(r) { return r['Mitra Kerja'] === currentUser.mitra; });
+                }
+                currentMgmtData = mData; mgmtCurrentPage = 1; renderMgmtTable();
+            } else throw new Error(json.message);
+        } catch(e) { empty.textContent = 'Gagal memuat data master.'; }
+    }
+
+    function renderMgmtTable() {
+        const sheet = document.getElementById('mgmtSelect').value;
+        const tbH = document.getElementById('mgmtTableHead'); const tbB = document.getElementById('mgmtTableBody'); const empty = document.getElementById('mgmtEmpty'); const pagi = document.getElementById('mgmtPagination');
+        
+        if(currentMgmtData.length === 0) { 
+           empty.classList.remove('hidden'); empty.textContent = 'Data Kosong / Tidak Ada Dalam Rentang Waktu.'; tbH.innerHTML=''; tbB.innerHTML=''; pagi.innerHTML=''; return; 
+        }
+        
+        empty.classList.add('hidden');
+        const keys = Object.keys(currentMgmtData[0]); let headHtml = '<tr>';
+        keys.forEach(function(k) { headHtml += '<th class="p-3">' + k + '</th>'; });
+        if(sheet === 'Surveyor') headHtml += '<th class="p-3 text-center">Action</th>';
+        headHtml += '</tr>'; tbH.innerHTML = headHtml;
+
+        const startIndex = (mgmtCurrentPage - 1) * mgmtRowsPerPage; const endIndex = startIndex + mgmtRowsPerPage;
+        const paginatedData = currentMgmtData.slice(startIndex, endIndex);
+
+        tbB.innerHTML = '';
+        paginatedData.forEach(function(row) {
+            let rowHtml = '<tr class="hover:bg-gray-50">';
+            keys.forEach(function(k) { 
+                let displayVal = row[k] || '-';
+                let addClass = '';
+                // Add formatting for ISO String specifically
+                if (typeof displayVal === 'string' && displayVal.includes('T') && displayVal.includes('Z')) addClass = 'text-[10px] font-mono';
+                rowHtml += '<td class="p-3 truncate max-w-[150px] '+addClass+'" title="'+displayVal+'">' + displayVal + '</td>'; 
+            });
+            if(sheet === 'Surveyor') {
+                const recId = row['ID'] || row[keys[0]];
+                rowHtml += '<td class="p-3 text-center"><button onclick="confirmDelete(\''+recId+'\', \''+sheet+'\')" class="p-1 text-red-500 hover:bg-red-100 rounded"><i class="ph-fill ph-trash text-lg"></i></button></td>';
+            }
+            rowHtml += '</tr>'; tbB.innerHTML += rowHtml;
+        });
+
+        const totalPages = Math.ceil(currentMgmtData.length / mgmtRowsPerPage);
+        pagi.innerHTML = '<button onclick="changeMgmtPage(-1)" '+(mgmtCurrentPage===1?'disabled':'')+' class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded font-semibold disabled:opacity-50">Prev</button>' +
+                         '<span>Page ' + mgmtCurrentPage + ' of ' + totalPages + ' (Total: '+currentMgmtData.length+')</span>' +
+                         '<button onclick="changeMgmtPage(1)" '+(mgmtCurrentPage===totalPages||totalPages===0?'disabled':'')+' class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded font-semibold disabled:opacity-50">Next</button>';
+    }
+
+    function changeMgmtPage(direction) { mgmtCurrentPage += direction; renderMgmtTable(); }
+
+    function openMgmtModal() {
+        const sheet = document.getElementById('mgmtSelect').value; document.getElementById('mgmtForm').reset(); document.getElementById('mgmt_sheet').value = sheet;
+        const fields = document.getElementById('mgmt_fields'); fields.innerHTML = '';
+        if (sheet === 'Surveyor') {
+            const m = currentUser.user === 'user_adaro' ? 'Adaro' : currentUser.mitra;
+            fields.innerHTML = '<div><label class="block text-sm font-semibold mb-1">Nama Surveyor</label><input type="text" id="mgmt_nama" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div><div><label class="block text-sm font-semibold mb-1 mt-3">Mitra Kerja</label><input type="text" id="mgmt_mitra" value="'+m+'" readonly class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 text-gray-500 font-bold"></div>';
+        }
+        document.getElementById('modalMgmt').classList.remove('hidden');
+    }
+    function closeMgmtModal() { document.getElementById('modalMgmt').classList.add('hidden'); }
+
+    async function saveMgmt(e) {
+        e.preventDefault(); const sheet = document.getElementById('mgmt_sheet').value; const btn = document.getElementById('btnSaveMgmt'); btn.disabled = true; btn.textContent = 'Menyimpan...';
+        let payload = {}; let action = '';
+        if (sheet === 'Surveyor') { payload = { nama: document.getElementById('mgmt_nama').value, mitra: document.getElementById('mgmt_mitra').value }; action = 'saveSurveyor'; }
+        try {
+            const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: action, data: payload }), headers: { "Content-Type": "text/plain;charset=utf-8" }, redirect: "follow" });
+            const json = await res.json();
+            if(json.status === 'success') { Swal.fire({toast: true, position: 'top-end', icon: 'success', title: 'Tersimpan', showConfirmButton: false, timer: 1500}); closeMgmtModal(); fetchManagementData(); } else throw new Error(json.message);
+        } catch(err) { Swal.fire('Error', err.toString(), 'error'); }
+        btn.disabled = false; btn.textContent = 'Simpan';
+    }
+
   </script>
 </body>
 </html>
