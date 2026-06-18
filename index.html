@@ -50,7 +50,7 @@
           <label class="block text-sm font-semibold mb-1">Password</label>
           <input type="password" id="login_pass" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2">
         </div>
-        <button type="submit" class="w-full bg-theme2 hover:bg-theme1 text-white font-bold py-3 px-4 rounded transition shadow">LOGIN / MASUK</button>
+        <button type="submit" class="w-full bg-theme2 hover:bg-theme1 text-white font-bold py-3 px-4 rounded transition shadow">LOGIN</button>
       </form>
     </div>
   </div>
@@ -99,7 +99,7 @@
         <button onclick="syncMasterDataManual()" class="block w-full text-left px-4 py-3 font-semibold text-theme4 hover:bg-theme2 transition"><i class="ph ph-arrows-clockwise mr-2"></i>Sync Master Surveyor</button>
         <button id="installAppBtn" onclick="installPWA()" class="hidden w-full text-left px-4 py-3 font-semibold text-theme5 bg-theme2 hover:bg-theme3 hover:text-theme1 transition border-t border-theme2"><i class="ph ph-download-simple mr-2"></i>Install Aplikasi Offline</button>
     </div>
-    <button onclick="logout()" class="block w-full text-left px-4 py-3 font-semibold text-red-300 hover:bg-theme2 transition">Logout Akses</button>
+    <button onclick="logout()" class="block w-full text-left px-4 py-3 font-semibold text-red-300 hover:bg-theme2 transition">Logout</button>
   </div>
 
   <main id="mainContainer" class="max-w-6xl mx-auto px-4 mt-6 pb-10">
@@ -130,10 +130,10 @@
           <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Nama Front <span class="text-red-500">*</span></label><input type="text" name="nama_front" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2" placeholder="Contoh: Front A"></div>
           <div><label class="block text-sm font-semibold mb-1">Northing <span class="text-red-500">*</span></label><input type="number" step="0.001" name="northing" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
           <div><label class="block text-sm font-semibold mb-1">Easting <span class="text-red-500">*</span></label><input type="number" step="0.001" name="easting" required class="font-mono w-full border border-gray-300 rounded px-3 py-2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Actual Level <span class="text-red-500">*</span></label><input type="number" step="any" name="actual_level" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Tinggi Benang <span class="text-red-500">*</span></label><input type="number" step="any" name="tinggi_benang" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
-          <div><label class="block text-sm font-semibold mb-1">Target RL <span class="text-red-500">*</span></label><input type="number" step="any" name="target_rl" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
-          <div><label class="block text-sm font-semibold mb-1">RL Design <span class="text-red-500">*</span></label><input type="number" step="any" name="rl_design" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Actual Level (m)<span class="text-red-500">*</span></label><input type="number" step="any" name="actual_level" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Tinggi Benang (m)<span class="text-red-500">*</span></label><input type="number" step="any" name="tinggi_benang" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">Target RL (m)<span class="text-red-500">*</span></label><input type="number" step="any" name="target_rl" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
+          <div><label class="block text-sm font-semibold mb-1">RL Design (m)<span class="text-red-500">*</span></label><input type="number" step="any" name="rl_design" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
           <div class="md:col-span-2"><label class="block text-sm font-semibold mb-1">Grade (%) <span class="text-red-500">*</span></label><input type="number" step="any" name="grade" required class="font-mono w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-theme2"></div>
           
           <div class="md:col-span-2 bg-theme5 bg-opacity-20 p-4 rounded border border-theme4 flex items-center justify-between">
